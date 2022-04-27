@@ -66,7 +66,7 @@ common to all directory paths is factored out.")
 
 
 ;;====================================================
-;; Autoloaded entrypoints for IVY access
+;; Autoloaded entrypoints for completing-read access
 ;;====================================================
 
 ;;;###autoload
@@ -104,10 +104,8 @@ common to all directory paths is factored out.")
 ;;====================================================
 
 (defun wsf--find-file-helper (find-file-func)
-  "Use IVY completion with find-file-func in a Mathworks workspace."
+  "Completing-read for find-file-func in a Mathworks workspace."
   (wsf--current-completions)
-
-
   (let* ((prompt (concat "Find-file in workspace " wsf--workspace ": "))
          (filename (let ((preselect (thing-at-point 'filename)))
                      (completing-read-default prompt                    ; prompt
@@ -118,9 +116,9 @@ common to all directory paths is factored out.")
                                               'wsf--find-file-history   ; history
                                               (if preselect             ; default
                                                   (file-name-nondirectory preselect)
-                                                nil))))))
+                                                nil)))))
     (when (> (length filename) 0)
-      (funcall find-file-func (wsf--reconstitute-file-path filename))))
+      (funcall find-file-func (wsf--reconstitute-file-path filename)))))
 
 (defun wsf--reconstitute-file-path (filename)
   ""
